@@ -5,8 +5,6 @@ const md5 = require("blueimp-md5");
 function Characters(){
     // Variable de estado de personajes
     const [characters, setCharacters] = useState([]);
-    // Variable de estado de joke
-    const [joke, setJoke] = useState(null); 
     useEffect(()=>{
         if(!navigator.onLine){
             if(localStorage.getItem("characters") === null) {
