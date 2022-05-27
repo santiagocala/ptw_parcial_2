@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import MovieDetail from './MovieDetail';
 import { render } from 'react-dom';
-var selectedMovieTemporal = []
+import {FormattedDate} from 'react-intl';
+var selectedMovieTemporal = [];
 
 function Movies(){
     // Variable de estado de las películas
@@ -68,10 +69,24 @@ function Movies(){
                       <td>{movie.directedBy}</td>
                       <td>{movie.country}</td>
                       <td>{movie.budget}</td>
-                      <td>{movie.releaseDate}</td>
+                      <td>
+                        <FormattedDate
+                          value={new Date(movie.releaseDate)}
+                          year="numeric"
+                          month="long"
+                          day="numeric"
+                          weekday="long"
+                        />
+                      </td>
                       <td>{movie.views}</td>
                       <td>
-                        <button type="button" onClick={renderMovieDetail(movie)} class="btn btn-secondary">Detail</button>
+                        <button
+                          type="button"
+                          onClick={renderMovieDetail(movie)}
+                          class="btn btn-secondary"
+                        >
+                          Detail
+                        </button>
                       </td>
                     </tr>
                   );
