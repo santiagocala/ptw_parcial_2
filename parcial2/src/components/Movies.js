@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import MovieDetail from './MovieDetail';
+import Graph from './Graph';
 import { render } from 'react-dom';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
@@ -14,7 +15,6 @@ function Movies(){
                 let emptyarray = {name: "Loading...", directedBy:"Loading...", country:"Loading...", budget:"Loading...", views:"Loading..."};
                 setMovies(emptyarray);
             } else {
-                console.log('llegamos acá');
                 setMovies(JSON.parse(localStorage.getItem("movies")));
             }
         } else {
@@ -47,68 +47,74 @@ function Movies(){
       <div className="container-fluid">
         <div className="row">
           <div className="col">
-            <table className="table table-dark table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">
-                    <FormattedMessage id='Name'/>
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id='DirectedBy'/>
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id='Country'/>
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id='Budget'/>
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id='ReleaseDate'/>
-                  </th>
-                  <th scope="col">
-                    <FormattedMessage id='Views'/>
-                  </th>
-                  <th>Info</th>
-                </tr>
-              </thead>
-              <tbody>
-                {movies.map(function (movie, index) {
-                  return (
-                    <tr key={index}>
-                      <th scope="row">{movie.id}</th>
-                      <td>{movie.name}</td>
-                      <td>{movie.directedBy}</td>
-                      <td>{movie.country}</td>
-                      <td>{movie.budget}</td>
-                      <td>
-                        <FormattedDate
-                          value={new Date(movie.releaseDate)}
-                          year="numeric"
-                          month="long"
-                          day="numeric"
-                          weekday="long"
-                        />
-                      </td>
-                      <td>{movie.views}</td>
-                      <td>
-                        <button
-                          type="button"
-                          onClick={(e) => renderMovieDetail(e, movie)}
-                          class="btn btn-secondary"
-                        >
-                          Detail
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <div className="row">
+              <table className="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">
+                      <FormattedMessage id="Name" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="DirectedBy" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="Country" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="Budget" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="ReleaseDate" />
+                    </th>
+                    <th scope="col">
+                      <FormattedMessage id="Views" />
+                    </th>
+                    <th>Info</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {movies.map(function (movie, index) {
+                    return (
+                      <tr key={index}>
+                        <th scope="row">{movie.id}</th>
+                        <td>{movie.name}</td>
+                        <td>{movie.directedBy}</td>
+                        <td>{movie.country}</td>
+                        <td>{movie.budget}</td>
+                        <td>
+                          <FormattedDate
+                            value={new Date(movie.releaseDate)}
+                            year="numeric"
+                            month="long"
+                            day="numeric"
+                            weekday="long"
+                          />
+                        </td>
+                        <td>{movie.views}</td>
+                        <td>
+                          <button
+                            type="button"
+                            onClick={(e) => renderMovieDetail(e, movie)}
+                            class="btn btn-secondary"
+                          >
+                            Detail
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className = 'row'>
+                <Graph movies={movies}/>
+            </div>
           </div>
           <div className="col">
             {
-                selectedMovie && <MovieDetail movie={selectedMovie}/>
+              // Mira si selectedMovie es false y si no, llama a la función para renderizar
+              selectedMovie && <MovieDetail movie={selectedMovie} />
             }
           </div>
         </div>
