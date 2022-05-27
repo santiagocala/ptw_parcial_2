@@ -1,0 +1,9 @@
+{
+    "Title": "Movies", 
+	"Name": "Name",
+	"DirectedBy": "Directed by",
+	"Country": "Country",
+	"Budget": "Budget",
+	"ReleaseDate": "Release Date",
+	"Views": "Views"
+}

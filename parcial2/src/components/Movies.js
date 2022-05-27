@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import MovieDetail from './MovieDetail';
 import { render } from 'react-dom';
-import {FormattedDate} from 'react-intl';
-var selectedMovieTemporal = [];
+import {FormattedDate, FormattedMessage} from 'react-intl';
 
 function Movies(){
     // Variable de estado de las películas
     const [movies, setMovies] = useState([]);
     // Variable de estado de la película seleccionada
-    //const [selectedMovie, setSelectedMovie] = useState(null);
+    const [selectedMovie, setSelectedMovie] = useState(null);
     useEffect(()=>{
         if(!navigator.onLine){
             if(localStorage.getItem("movies") === null) {
@@ -19,8 +18,8 @@ function Movies(){
                 setMovies(JSON.parse(localStorage.getItem("movies")));
             }
         } else {
-            let locale = navigator.language;
-            //let locale = 'es-ES';
+            //let locale = navigator.language;
+            let locale = 'es-ES';
             console.log('locale', locale);
             let URL = null;
             if(locale === 'es-ES'){
@@ -37,10 +36,10 @@ function Movies(){
         }
     }, []);
 
-    function renderMovieDetail(movie){
+    function renderMovieDetail(e, movie){
+        e.preventDefault();
         console.log('clicked', movie);
-        //setSelectedMovie(movie);
-        selectedMovieTemporal = movie;
+        setSelectedMovie(movie);
     }
 
     //Devuelve el valor del componente que contiene la tabla y el detalle de la película seleccionada
@@ -52,18 +51,31 @@ function Movies(){
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Directed by</th>
-                  <th scope="col">Country</th>
-                  <th scope="col">Budget</th>
-                  <th scope="col">Release</th>
-                  <th scope="col">Views</th>
+                  <th scope="col">
+                    <FormattedMessage id='Name'/>
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id='DirectedBy'/>
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id='Country'/>
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id='Budget'/>
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id='ReleaseDate'/>
+                  </th>
+                  <th scope="col">
+                    <FormattedMessage id='Views'/>
+                  </th>
+                  <th>Info</th>
                 </tr>
               </thead>
               <tbody>
                 {movies.map(function (movie, index) {
                   return (
-                    <tr key={index} onClick={renderMovieDetail(movie)}>
+                    <tr key={index}>
                       <th scope="row">{movie.id}</th>
                       <td>{movie.name}</td>
                       <td>{movie.directedBy}</td>
@@ -82,7 +94,7 @@ function Movies(){
                       <td>
                         <button
                           type="button"
-                          onClick={renderMovieDetail(movie)}
+                          onClick={(e) => renderMovieDetail(e, movie)}
                           class="btn btn-secondary"
                         >
                           Detail
@@ -95,7 +107,9 @@ function Movies(){
             </table>
           </div>
           <div className="col">
-            <MovieDetail movie={selectedMovieTemporal}/>
+            {
+                selectedMovie && <MovieDetail movie={selectedMovie}/>
+            }
           </div>
         </div>
       </div>

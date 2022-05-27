@@ -5,11 +5,21 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import localeEsMessages from './locales/es';
+import localeEnMessages from './locales/en';
 
+function getMessages(){
+  //let messages = localeEnMessages;
+  let messages = localeEsMessages;
+  if(navigator.language === 'es-ES'){
+		messages = localeEsMessages;  
+	}
+	return messages; 
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <IntlProvider locale='en'>
+    <IntlProvider locale='es-ES' messages={getMessages()}>
       <App />
     </IntlProvider>
   </React.StrictMode>,
